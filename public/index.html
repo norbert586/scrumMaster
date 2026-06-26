@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Draw a question of the day to kick off your standup." />
+  <meta name="color-scheme" content="dark" />
+  <title>Daily Draw — standup question of the day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230C4B3C'/%3E%3Crect x='8' y='6' width='14' height='20' rx='3' fill='%23FBF8EF' transform='rotate(-8 15 16)'/%3E%3Crect x='11' y='6' width='14' height='20' rx='3' fill='%23FBF8EF'/%3E%3Ccircle cx='18' cy='16' r='3' fill='%23FF3D6E'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="felt"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Daily Draw home">
+      <span class="brand__deck" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span class="brand__name">Daily&nbsp;Draw</span>
+    </a>
+
+    <div class="topbar__right">
+      <button id="teamBtn" class="chip" type="button" title="Name your team">
+        <span id="teamLabel">Name your team</span>
+      </button>
+      <button id="linkBtn" class="chip" type="button" title="Copy a link that restores this deck on any device">
+        Board link
+      </button>
+      <button id="manageBtn" class="btn btn--ghost" type="button" aria-expanded="false" aria-controls="manage">
+        Manage deck
+      </button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage">
+    <p class="dateline" id="dateline">&nbsp;</p>
+
+    <div class="deck" id="deck">
+      <div class="deck__back deck__back--2" aria-hidden="true"></div>
+      <div class="deck__back deck__back--1" aria-hidden="true"></div>
+
+      <article class="card" id="card" aria-live="polite">
+        <div class="card__head">
+          <span class="card__eyebrow">Question of the day</span>
+          <span class="card__pip" aria-hidden="true">✸</span>
+        </div>
+        <p class="card__question" id="question">Loading today's card…</p>
+        <div class="card__foot">
+          <span class="card__index" id="cardIndex">—</span>
+          <span class="card__cat" id="cardCat" hidden></span>
+        </div>
+      </article>
+    </div>
+
+    <div class="actions">
+      <button id="drawBtn" class="btn btn--primary" type="button">
+        <span class="btn__icon" aria-hidden="true">↻</span>
+        <span>Draw another</span>
+      </button>
+      <span class="actions__hint">Press <kbd>D</kbd> to draw</span>
+    </div>
+  </main>
+
+  <!-- Manage deck drawer -->
+  <aside class="manage" id="manage" hidden aria-label="Manage deck">
+    <div class="manage__panel" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
+      <div class="manage__top">
+        <div>
+          <h2 id="manageTitle">Manage deck</h2>
+          <p class="manage__sub" id="manageCount">—</p>
+        </div>
+        <button id="manageClose" class="iconbtn" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <form id="addForm" class="addform" autocomplete="off">
+        <label class="sr-only" for="addText">New question</label>
+        <textarea id="addText" class="addform__text" rows="2" maxlength="280"
+          placeholder="Add a question to the deck…"></textarea>
+        <div class="addform__row">
+          <select id="addCat" class="select" aria-label="Category"></select>
+          <button class="btn btn--primary" type="submit">Add card</button>
+        </div>
+      </form>
+
+      <div class="manage__tools">
+        <input id="search" class="search" type="search" placeholder="Search the deck…" aria-label="Search questions" />
+        <select id="filterCat" class="select" aria-label="Filter by category"></select>
+      </div>
+
+      <ul id="list" class="list"></ul>
+      <p id="emptyState" class="empty" hidden></p>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Row-edit template -->
+  <template id="rowTemplate">
+    <li class="row">
+      <div class="row__main">
+        <span class="row__cat"></span>
+        <p class="row__text"></p>
+        <span class="row__uses"></span>
+      </div>
+      <div class="row__actions">
+        <button class="iconbtn" data-act="edit" type="button" aria-label="Edit">✎</button>
+        <button class="iconbtn iconbtn--danger" data-act="delete" type="button" aria-label="Delete">🗑</button>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
