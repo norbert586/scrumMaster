@@ -1,5 +1,11 @@
 // Curated starter deck. Every new board begins with these so it's useful on
 // first load. Categories drive the colored pill on each card.
+//
+// SEED_VERSION bumps whenever questions are added below. Existing boards are
+// topped up with the new ones on next load (see store.migrate) — matched by
+// text, so it never duplicates or resurrects a question you've deleted.
+export const SEED_VERSION = 2;
+
 export const SEED_QUESTIONS = [
   { text: "What's the first thing you'd do with a surprise free hour today?", category: 'Icebreaker' },
   { text: 'If your week so far had a soundtrack, what is the opening song?', category: 'Icebreaker' },
@@ -31,6 +37,25 @@ export const SEED_QUESTIONS = [
   { text: 'If the team had a mascot, what should it be?', category: 'Fun' },
   { text: "What's a definition of “done” you wish we were stricter about?", category: 'Reflection' },
   { text: 'Window seat or aisle seat — and what does your answer reveal?', category: 'This or That' },
+  { text: 'If you could swap roles with anyone here for a day, who and why?', category: 'Icebreaker' },
+  { text: "What's a tiny thing that reliably makes your day better?", category: 'Icebreaker' },
+  { text: "What's the best advice you've gotten in the last year?", category: 'Reflection' },
+  { text: 'If you had to eat one cuisine for a month, which would it be?', category: 'Fun' },
+  { text: "What's one thing you got noticeably better at this month?", category: 'Reflection' },
+  { text: 'What would make this sprint a personal success for you?', category: 'Reflection' },
+  { text: "What's a blocker you can already see coming this week?", category: 'Reflection' },
+  { text: "What's one process here you'd love to simplify?", category: 'Reflection' },
+  { text: "What's the weirdest thing in your fridge right now?", category: 'Fun' },
+  { text: 'If you were a command-line tool, what would you do?', category: 'Fun' },
+  { text: "What's an app you wish existed but doesn't?", category: 'Fun' },
+  { text: "What's your most-used emoji, and what does it really mean?", category: 'Fun' },
+  { text: 'What would your work-edition villain origin story be?', category: 'Fun' },
+  { text: 'Dark mode or light mode — final answer?', category: 'This or That' },
+  { text: 'Early bird or night owl for your best deep work?', category: 'This or That' },
+  { text: 'Chat or email for actually getting things done?', category: 'This or That' },
+  { text: "What's something a teammate did recently that you appreciated?", category: 'Team' },
+  { text: 'What do you want to learn from someone else on this team?', category: 'Team' },
+  { text: 'If we celebrated one tiny win right now, what should it be?', category: 'Team' },
 ];
 
 export const CATEGORIES = ['Icebreaker', 'Reflection', 'Fun', 'This or That', 'Team'];

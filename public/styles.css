@@ -212,20 +212,34 @@ body {
 .deck__back--2 { transform: translate(14px, 18px) rotate(4.4deg); opacity: 0.6; }
 
 .card {
+  /* Per-face theme tokens — defaults are the "cream" face. Each [data-face]
+     below overrides these, so every card element reads from the same knobs. */
+  --c-bg: var(--card);
+  --c-ink: var(--ink);
+  --c-soft: var(--ink-soft);
+  --c-line: var(--paper-line);
+  --c-keyline: rgba(200, 162, 75, 0.5);
+  --c-pip: var(--brass);
+  --c-pill-bg: rgba(255, 61, 110, 0.1);
+  --c-pill-ink: var(--flush-deep);
+
   position: relative;
-  background: var(--card);
-  color: var(--ink);
+  background: var(--c-bg);
+  color: var(--c-ink);
   border-radius: var(--r-card);
   padding: clamp(26px, 5vw, 40px);
   min-height: 300px;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-card);
-  /* brass keyline like a printed card border */
-  border: 1px solid var(--card-edge);
-  outline: 1px solid rgba(200, 162, 75, 0.35);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  outline: 1px solid var(--c-keyline);
   outline-offset: -7px;
+  overflow: hidden; /* keep the watermark suit clipped to the card */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+/* keep real content above the watermark layer */
+.card > *:not(.card__watermark) { position: relative; z-index: 1; }
 /* faint ruled baseline texture on the stock */
 .card::before {
   content: '';
@@ -233,7 +247,7 @@ body {
   inset: 14px;
   border-radius: 10px;
   pointer-events: none;
-  background-image: repeating-linear-gradient(var(--paper-line) 0 1px, transparent 1px 30px);
+  background-image: repeating-linear-gradient(var(--c-line) 0 1px, transparent 1px 30px);
   opacity: 0.35;
   -webkit-mask-image: linear-gradient(transparent 0, #000 70px);
           mask-image: linear-gradient(transparent 0, #000 70px);
@@ -249,9 +263,9 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--c-soft);
 }
-.card__pip { color: var(--brass); font-size: 1.1rem; }
+.card__pip { color: var(--c-pip); font-size: 1.1rem; }
 
 .card__question {
   font-family: var(--font-display);
@@ -269,14 +283,14 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border-top: 1px solid var(--paper-line);
+  border-top: 1px solid var(--c-line);
   padding-top: 16px;
 }
 .card__index {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.08em;
-  color: var(--ink-soft);
+  color: var(--c-soft);
 }
 .card__cat {
   font-family: var(--font-ui);
@@ -284,10 +298,100 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--flush-deep);
-  background: rgba(255, 61, 110, 0.1);
+  color: var(--c-pill-ink);
+  background: var(--c-pill-bg);
   border-radius: 999px;
   padding: 5px 12px;
+}
+
+/* ---- card faces: a varied, contrasted deck --------------------------- */
+
+/* Decorative playing-card bits, shown only on the playing-card faces. */
+.card__watermark,
+.card__corner { display: none; }
+.card__watermark {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rem;
+  line-height: 1;
+  color: var(--c-pip);
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 0;
+}
+.card__corner {
+  position: absolute;
+  top: clamp(16px, 3vw, 24px);
+  left: clamp(18px, 3.5vw, 28px);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 0.95;
+  text-align: center;
+  color: var(--c-pip);
+}
+.card__corner .card__suit { display: block; font-size: 1.25em; }
+
+.card[data-face='spade'] .card__watermark,
+.card[data-face='heart'] .card__watermark { display: flex; }
+.card[data-face='spade'] .card__corner,
+.card[data-face='heart'] .card__corner { display: block; }
+/* the eyebrow makes room for the corner index on playing-card faces */
+.card[data-face='spade'] .card__head,
+.card[data-face='heart'] .card__head { padding-left: 40px; }
+
+/* patterned + playing-card faces skip the ruled-paper texture */
+.card[data-face='pine']::before,
+.card[data-face='indigo']::before,
+.card[data-face='spade']::before,
+.card[data-face='heart']::before { display: none; }
+
+.card[data-face='pine'] {
+  --c-bg: #11564a; --c-ink: #f3efe0; --c-soft: #b9d2c6;
+  --c-line: rgba(243, 239, 224, 0.16); --c-keyline: rgba(240, 180, 41, 0.45);
+  --c-pip: #f0b429; --c-pill-bg: rgba(243, 239, 224, 0.16); --c-pill-ink: #fbe9b8;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 12px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.07) 0 2px, transparent 2px 12px);
+}
+.card[data-face='indigo'] {
+  --c-bg: #232b54; --c-ink: #eceeff; --c-soft: #aeb6e2;
+  --c-line: rgba(236, 238, 255, 0.16); --c-keyline: rgba(255, 209, 102, 0.4);
+  --c-pip: #ffd166; --c-pill-bg: rgba(255, 107, 154, 0.22); --c-pill-ink: #ffb3cb;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.6px);
+  background-size: 17px 17px;
+}
+.card[data-face='coral'] {
+  --c-bg: #e2674b; --c-ink: #2a0e07; --c-soft: #743626;
+  --c-line: rgba(42, 14, 7, 0.18); --c-keyline: rgba(42, 14, 7, 0.28);
+  --c-pip: #fff1dd; --c-pill-bg: rgba(42, 14, 7, 0.12); --c-pill-ink: #3a1408;
+}
+.card[data-face='butter'] {
+  --c-bg: #f2c84b; --c-ink: #3a2a0c; --c-soft: #7c601e;
+  --c-line: rgba(58, 42, 12, 0.18); --c-keyline: rgba(58, 42, 12, 0.24);
+  --c-pip: #c8324e; --c-pill-bg: rgba(200, 50, 78, 0.16); --c-pill-ink: #9e2238;
+}
+.card[data-face='blush'] {
+  --c-bg: #f4c9d2; --c-ink: #5a2230; --c-soft: #97586b;
+  --c-line: rgba(90, 34, 48, 0.18); --c-keyline: rgba(90, 34, 48, 0.24);
+  --c-pip: #c8324e; --c-pill-bg: rgba(90, 34, 48, 0.12); --c-pill-ink: #7a2a3e;
+}
+.card[data-face='sky'] {
+  --c-bg: #bce1db; --c-ink: #0f3a33; --c-soft: #4f776f;
+  --c-line: rgba(15, 58, 51, 0.18); --c-keyline: rgba(15, 58, 51, 0.22);
+  --c-pip: #0f5142; --c-pill-bg: rgba(15, 58, 51, 0.1); --c-pill-ink: #0d4f44;
+}
+.card[data-face='spade'] {
+  --c-bg: #16212b; --c-ink: #f4f1ea; --c-soft: #9aa7b0;
+  --c-line: rgba(244, 241, 234, 0.14); --c-keyline: rgba(244, 241, 234, 0.28);
+  --c-pip: #f4f1ea; --c-pill-bg: rgba(255, 61, 110, 0.2); --c-pill-ink: #ff9bb6;
+}
+.card[data-face='heart'] {
+  --c-bg: #fbf5ec; --c-ink: #3a2330; --c-soft: #9a6577;
+  --c-line: rgba(58, 35, 48, 0.14); --c-keyline: rgba(200, 50, 78, 0.4);
+  --c-pip: #c8324e; --c-pill-bg: rgba(200, 50, 78, 0.12); --c-pill-ink: #b12b49;
 }
 
 /* draw animation: a fresh card lifts off the deck */

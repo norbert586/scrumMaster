@@ -10,7 +10,7 @@
 import { randomBytes } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { SEED_QUESTIONS, CATEGORIES } from './seed.js';
+import { SEED_QUESTIONS, SEED_VERSION, CATEGORIES } from './seed.js';
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const BOARDS_DIR = path.join(DATA_DIR, 'boards');
@@ -82,6 +82,7 @@ function makeBoard(id) {
     teamName: '',
     createdAt: now,
     updatedAt: now,
+    seedVersion: SEED_VERSION,
     settings: {},
     history: {}, // { 'YYYY-MM-DD': questionId }
     questions: SEED_QUESTIONS.map((q) => ({
@@ -93,11 +94,34 @@ function makeBoard(id) {
   };
 }
 
+function normalizeText(t) {
+  return String(t == null ? '' : t).replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+// Top up an older board with seed questions added since its seedVersion.
+// Matches by text so it never duplicates existing cards or resurrects deleted
+// ones. Returns true if the board changed and should be persisted.
+function migrate(board) {
+  if (board.seedVersion === SEED_VERSION) return false;
+  const have = new Set(board.questions.map((q) => normalizeText(q.text)));
+  const now = new Date().toISOString();
+  for (const s of SEED_QUESTIONS) {
+    if (!have.has(normalizeText(s.text))) {
+      board.questions.push({ id: newQuestionId(), text: s.text, category: s.category, createdAt: now });
+    }
+  }
+  board.seedVersion = SEED_VERSION;
+  return true;
+}
+
 // Load an existing board, or create+seed one for the given id (used when a
 // cookie/link references a board whose file is missing — e.g. fresh volume).
 export async function loadOrCreate(id) {
   const existing = await readBoard(id);
-  if (existing) return existing;
+  if (existing) {
+    if (migrate(existing)) await writeBoard(existing);
+    return existing;
+  }
   const board = makeBoard(id);
   await writeBoard(board);
   return board;

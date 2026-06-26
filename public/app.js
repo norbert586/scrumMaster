@@ -52,6 +52,41 @@ function renderDateline() {
   });
 }
 
+// The deck wears nine faces — seven solid colors plus two playing-card styles.
+const FACES = ['cream', 'pine', 'indigo', 'coral', 'butter', 'blush', 'sky', 'spade', 'heart'];
+const SUITS = { spade: '♠', heart: '♥' };
+const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+// Stable 32-bit hash so a given question always wears the same face + rank.
+function hashStr(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+
+function applyFace(card, q) {
+  const corner = $('cardCorner');
+  const wm = $('cardWatermark');
+  if (!q) { card.dataset.face = 'cream'; corner.replaceChildren(); wm.textContent = ''; return; }
+
+  const h = hashStr(q.id);
+  const face = FACES[h % FACES.length];
+  card.dataset.face = face;
+
+  const suit = SUITS[face];
+  if (suit) {
+    const rank = RANKS[(h >>> 8) % RANKS.length];
+    const s = document.createElement('span');
+    s.className = 'card__suit';
+    s.textContent = suit;
+    corner.replaceChildren(document.createTextNode(rank), s);
+    wm.textContent = suit;
+  } else {
+    corner.replaceChildren();
+    wm.textContent = '';
+  }
+}
+
 function renderCard(animate) {
   const card = $('card');
   const q = state.daily;
@@ -60,6 +95,7 @@ function renderCard(animate) {
     $('question').textContent = 'Your deck is empty — add a card to get started.';
     $('cardIndex').textContent = '0 / 0';
     $('cardCat').hidden = true;
+    applyFace(card, null);
     return;
   }
 
@@ -72,6 +108,8 @@ function renderCard(animate) {
   const cat = $('cardCat');
   if (q.category) { cat.textContent = q.category; cat.hidden = false; }
   else { cat.hidden = true; }
+
+  applyFace(card, q);
 
   if (animate) {
     card.classList.remove('is-drawing');
@@ -258,7 +296,6 @@ async function deleteCard(row) {
   const id = row.dataset.id;
   const q = state.questions.find((x) => x.id === id);
   if (!q) return;
-  if (!confirm(`Delete this card?\n\n“${q.text}”`)) return;
   try {
     const data = await api(`/api/questions/${id}`, { method: 'DELETE' });
     state.questions = data.questions;
