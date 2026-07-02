@@ -126,6 +126,17 @@ app.post('/api/board/team', asyncRoute(async (req, res) => {
   res.json(result);
 }));
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Daily Draw running on http://localhost:${PORT}`);
 });
+
+// Exit cleanly when the platform stops the container (e.g. a Railway
+// redeploy), instead of dying by signal and logging spurious errors.
+for (const signal of ['SIGTERM', 'SIGINT']) {
+  process.on(signal, () => {
+    console.log(`${signal} received — shutting down.`);
+    server.close(() => process.exit(0));
+    // Open keep-alive connections could stall close(); don't hang the deploy.
+    setTimeout(() => process.exit(0), 5000).unref();
+  });
+}
