@@ -10,7 +10,7 @@
 import { randomBytes } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { SEED_QUESTIONS, SEED_VERSION, CATEGORIES } from './seed.js';
+import { SEED_QUESTIONS, SEED_VERSION, CATEGORIES, RETIRED_QUESTIONS } from './seed.js';
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const BOARDS_DIR = path.join(DATA_DIR, 'boards');
@@ -98,11 +98,15 @@ function normalizeText(t) {
   return String(t == null ? '' : t).replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
-// Top up an older board with seed questions added since its seedVersion.
-// Matches by text so it never duplicates existing cards or resurrects deleted
-// ones. Returns true if the board changed and should be persisted.
+// Bring an older board up to the current seed: drop retired seed questions,
+// then top up with ones added since its seedVersion. Matches by text so it
+// never duplicates existing cards or resurrects deleted ones (an edited card
+// no longer matches, so it survives retirement). Returns true if the board
+// changed and should be persisted.
 function migrate(board) {
   if (board.seedVersion === SEED_VERSION) return false;
+  const retired = new Set(RETIRED_QUESTIONS.map(normalizeText));
+  board.questions = board.questions.filter((q) => !retired.has(normalizeText(q.text)));
   const have = new Set(board.questions.map((q) => normalizeText(q.text)));
   const now = new Date().toISOString();
   for (const s of SEED_QUESTIONS) {

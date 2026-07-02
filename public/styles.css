@@ -321,7 +321,9 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-.card__corner {
+/* `.card > .card__corner` outweighs the position:relative catch-all above,
+   so the index truly pins to the corner instead of falling into the flow. */
+.card > .card__corner {
   position: absolute;
   top: clamp(16px, 3vw, 24px);
   left: clamp(18px, 3.5vw, 28px);
@@ -335,18 +337,31 @@ body {
 .card__corner .card__suit { display: block; font-size: 1.25em; }
 
 .card[data-face='spade'] .card__watermark,
-.card[data-face='heart'] .card__watermark { display: flex; }
+.card[data-face='heart'] .card__watermark,
+.card[data-face='club'] .card__watermark,
+.card[data-face='diamond'] .card__watermark { display: flex; }
 .card[data-face='spade'] .card__corner,
-.card[data-face='heart'] .card__corner { display: block; }
-/* the eyebrow makes room for the corner index on playing-card faces */
+.card[data-face='heart'] .card__corner,
+.card[data-face='club'] .card__corner,
+.card[data-face='diamond'] .card__corner { display: block; }
+/* the eyebrow makes room for the corner index on playing-card faces —
+   sized to clear the widest rank ("10" + suit) at the corner's largest offset */
 .card[data-face='spade'] .card__head,
-.card[data-face='heart'] .card__head { padding-left: 40px; }
+.card[data-face='heart'] .card__head,
+.card[data-face='club'] .card__head,
+.card[data-face='diamond'] .card__head { padding-left: clamp(46px, 9vw, 60px); }
 
 /* patterned + playing-card faces skip the ruled-paper texture */
 .card[data-face='pine']::before,
 .card[data-face='indigo']::before,
 .card[data-face='spade']::before,
-.card[data-face='heart']::before { display: none; }
+.card[data-face='heart']::before,
+.card[data-face='club']::before,
+.card[data-face='diamond']::before,
+.card[data-face='superior']::before,
+.card[data-face='copper']::before,
+.card[data-face='aurora']::before,
+.card[data-face='circuit']::before { display: none; }
 
 .card[data-face='pine'] {
   --c-bg: #11564a; --c-ink: #f3efe0; --c-soft: #b9d2c6;
@@ -392,6 +407,64 @@ body {
   --c-bg: #fbf5ec; --c-ink: #3a2330; --c-soft: #9a6577;
   --c-line: rgba(58, 35, 48, 0.14); --c-keyline: rgba(200, 50, 78, 0.4);
   --c-pip: #c8324e; --c-pill-bg: rgba(200, 50, 78, 0.12); --c-pill-ink: #b12b49;
+}
+.card[data-face='club'] {
+  --c-bg: #eef1e4; --c-ink: #212e20; --c-soft: #5f7059;
+  --c-line: rgba(33, 46, 32, 0.14); --c-keyline: rgba(44, 62, 46, 0.4);
+  --c-pip: #2c3e2e; --c-pill-bg: rgba(44, 62, 46, 0.1); --c-pill-ink: #2c3e2e;
+}
+.card[data-face='diamond'] {
+  --c-bg: #fdf4e3; --c-ink: #3b2413; --c-soft: #8f6a4a;
+  --c-line: rgba(59, 36, 19, 0.14); --c-keyline: rgba(207, 83, 21, 0.4);
+  --c-pip: #cf5315; --c-pill-bg: rgba(207, 83, 21, 0.12); --c-pill-ink: #ad4410;
+}
+
+/* Lake Superior — deep cold blue with an overlapping-wave scallop pattern. */
+.card[data-face='superior'] {
+  --c-bg: #14425f; --c-ink: #eaf4f8; --c-soft: #a9c9d8;
+  --c-line: rgba(234, 244, 248, 0.16); --c-keyline: rgba(178, 219, 234, 0.35);
+  --c-pip: #b2dbea; --c-pill-bg: rgba(234, 244, 248, 0.14); --c-pill-ink: #d6ecf4;
+  background-image:
+    radial-gradient(circle at 12px 16px, transparent 9px, rgba(255, 255, 255, 0.07) 9px 10.5px, transparent 10.5px),
+    radial-gradient(circle at 0px 6px, transparent 9px, rgba(255, 255, 255, 0.05) 9px 10.5px, transparent 10.5px);
+  background-size: 24px 20px;
+}
+/* Keweenaw copper — deep burnished metal with a fine cross-hatch. */
+.card[data-face='copper'] {
+  --c-bg: #74391a; --c-ink: #ffeeda; --c-soft: #e3b48e;
+  --c-line: rgba(255, 238, 218, 0.16); --c-keyline: rgba(255, 217, 174, 0.4);
+  --c-pip: #ffd9ae; --c-pill-bg: rgba(255, 238, 218, 0.14); --c-pill-ink: #ffe1c4;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 227, 194, 0.06) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(-45deg, rgba(20, 8, 2, 0.14) 0 1px, transparent 1px 9px);
+}
+/* Traverse cherry — deep cherry stock with brass detailing. */
+.card[data-face='cherry'] {
+  --c-bg: #6e1f2e; --c-ink: #fbeff0; --c-soft: #dfa8b2;
+  --c-line: rgba(251, 239, 240, 0.16); --c-keyline: rgba(232, 176, 75, 0.45);
+  --c-pip: #e8b04b; --c-pill-bg: rgba(251, 239, 240, 0.14); --c-pill-ink: #f6d9dd;
+}
+/* Northern lights — night sky with soft green and violet glows. */
+.card[data-face='aurora'] {
+  --c-bg: #0e2233; --c-ink: #e9f2ec; --c-soft: #9dc2b1;
+  --c-line: rgba(233, 242, 236, 0.14); --c-keyline: rgba(94, 230, 168, 0.32);
+  --c-pip: #5ee6a8; --c-pill-bg: rgba(94, 230, 168, 0.16); --c-pill-ink: #a7f0cf;
+  background-image:
+    radial-gradient(90% 70% at 18% -10%, rgba(64, 224, 160, 0.2), transparent 60%),
+    radial-gradient(80% 60% at 82% -6%, rgba(122, 110, 255, 0.18), transparent 60%),
+    radial-gradient(60% 45% at 50% 0%, rgba(64, 200, 224, 0.1), transparent 65%);
+}
+/* Circuit board — dark slate with a faint copper-trace grid. */
+.card[data-face='circuit'] {
+  --c-bg: #101820; --c-ink: #e6f7f2; --c-soft: #93b3ab;
+  --c-line: rgba(230, 247, 242, 0.14); --c-keyline: rgba(70, 212, 176, 0.32);
+  --c-pip: #46d4b0; --c-pill-bg: rgba(70, 212, 176, 0.14); --c-pill-ink: #8fe8d0;
+  background-image:
+    linear-gradient(rgba(70, 212, 176, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(70, 212, 176, 0.06) 1px, transparent 1px),
+    radial-gradient(rgba(70, 212, 176, 0.14) 1.2px, transparent 1.3px);
+  background-size: 22px 22px, 22px 22px, 22px 22px;
+  background-position: 0 0, 0 0, 11px 11px;
 }
 
 /* draw animation: a fresh card lifts off the deck */
