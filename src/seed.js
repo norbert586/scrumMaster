@@ -4,7 +4,7 @@
 // SEED_VERSION bumps whenever questions are added below. Existing boards are
 // topped up with the new ones on next load (see store.migrate) — matched by
 // text, so it never duplicates or resurrects a question you've deleted.
-export const SEED_VERSION = 3;
+export const SEED_VERSION = 4;
 
 export const SEED_QUESTIONS = [
   { text: "What's the first thing you'd do with a surprise free hour today?", category: 'Icebreaker' },
@@ -16,13 +16,7 @@ export const SEED_QUESTIONS = [
   { text: "What's a browser tab you've had open for far too long?", category: 'Fun' },
   { text: "What's the last thing that made you laugh out loud?", category: 'Icebreaker' },
   { text: "If today were a weather forecast for your focus, what's the forecast?", category: 'Icebreaker' },
-  { text: "What's one thing slowing you down that the team could help with?", category: 'Reflection' },
-  { text: "What did you learn this sprint that you'd tell your past self?", category: 'Reflection' },
-  { text: "What's a task you keep avoiding — and what's the first 10 minutes of it?", category: 'Reflection' },
-  { text: 'Where did you get unblocked recently, and who helped?', category: 'Team' },
-  { text: "What's one thing we should absolutely keep doing as a team?", category: 'Reflection' },
   { text: 'If you could delete one recurring meeting, which one and why?', category: 'Reflection' },
-  { text: "What's the smallest change that would make tomorrow run smoother?", category: 'Reflection' },
   { text: 'Spaces or tabs — defend your honor in one sentence.', category: 'This or That' },
   { text: 'If your code had a warning label, what would it say?', category: 'Fun' },
   { text: 'Mountains or ocean for your next time off?', category: 'This or That' },
@@ -35,16 +29,12 @@ export const SEED_QUESTIONS = [
   { text: "What's a hobby you could teach the rest of us in five minutes?", category: 'Team' },
   { text: 'What do you wish people asked you more about?', category: 'Team' },
   { text: 'If the team had a mascot, what should it be?', category: 'Fun' },
-  { text: "What's a definition of “done” you wish we were stricter about?", category: 'Reflection' },
   { text: 'Window seat or aisle seat — and what does your answer reveal?', category: 'This or That' },
   { text: 'If you could swap roles with anyone here for a day, who and why?', category: 'Icebreaker' },
   { text: "What's a tiny thing that reliably makes your day better?", category: 'Icebreaker' },
   { text: "What's the best advice you've gotten in the last year?", category: 'Reflection' },
   { text: 'If you had to eat one cuisine for a month, which would it be?', category: 'Fun' },
   { text: "What's one thing you got noticeably better at this month?", category: 'Reflection' },
-  { text: 'What would make this sprint a personal success for you?', category: 'Reflection' },
-  { text: "What's a blocker you can already see coming this week?", category: 'Reflection' },
-  { text: "What's one process here you'd love to simplify?", category: 'Reflection' },
   { text: "What's the weirdest thing in your fridge right now?", category: 'Fun' },
   { text: 'If you were a command-line tool, what would you do?', category: 'Fun' },
   { text: "What's an app you wish existed but doesn't?", category: 'Fun' },
@@ -77,22 +67,12 @@ export const SEED_QUESTIONS = [
   { text: 'What did you want to be when you grew up — and how close did you land?', category: 'Icebreaker' },
 
   // --- v3: reflection ---------------------------------------------------
-  { text: 'What deserves more of your attention this week?', category: 'Reflection' },
   { text: "What's a recent mistake that taught you something useful?", category: 'Reflection' },
   { text: 'What are you tolerating right now that you could just fix?', category: 'Reflection' },
-  { text: 'When did you last change your mind about something at work?', category: 'Reflection' },
-  { text: "What's one thing you'd tell yourself at the start of this quarter?", category: 'Reflection' },
-  { text: 'What part of your work feels effortless lately — and why?', category: 'Reflection' },
-  { text: "What's a question you've been avoiding asking?", category: 'Reflection' },
-  { text: 'If this sprint had a retro right now, what would your one sticky note say?', category: 'Reflection' },
   { text: 'What did you do recently that your future self will thank you for?', category: 'Reflection' },
   { text: 'Which of your skills is quietly getting rusty?', category: 'Reflection' },
-  { text: "What's the kindest piece of feedback you've ever received?", category: 'Reflection' },
   { text: 'Which of your habits is doing the most heavy lifting right now?', category: 'Reflection' },
-  { text: 'What would "ten percent braver" look like for you today?', category: 'Reflection' },
-  { text: "What's a boundary that's been working well for you?", category: 'Reflection' },
   { text: "What's one thing you understand now that confused you a month ago?", category: 'Reflection' },
-  { text: 'What would you do differently if nobody was watching the metrics?', category: 'Reflection' },
   { text: "What's the most valuable five minutes of your day, on average?", category: 'Reflection' },
 
   // --- v3: fun ------------------------------------------------------------
@@ -134,15 +114,12 @@ export const SEED_QUESTIONS = [
   { text: 'Who taught you something this week — and what was it?', category: 'Team' },
   { text: "What's the best team you've ever been on, and what made it click?", category: 'Team' },
   { text: 'If we won a team award today, what should it be for?', category: 'Team' },
-  { text: "What's one thing that would make our standups better?", category: 'Team' },
-  { text: "What's a skill on this team you'd love a mini-workshop on?", category: 'Team' },
   { text: 'Describe our team as a band: who plays what?', category: 'Team' },
-  { text: "What are you working on that could use a second pair of eyes?", category: 'Team' },
-  { text: "What's the most underrated channel or thread we have?", category: 'Team' },
   { text: 'When has this team surprised you — in a good way?', category: 'Team' },
-  { text: 'What should we celebrate before the sprint ends?', category: 'Team' },
   { text: "Which teammate's superpower would you borrow this week?", category: 'Team' },
-  { text: "What's one piece of context you have that the team might be missing?", category: 'Team' },
+  { text: 'If our team were a heist crew, who does what on the job?', category: 'Team' },
+  { text: 'Team road trip: who drives, who DJs, who navigates, who naps?', category: 'Team' },
+  { text: 'If this team opened a food truck, what would we sell?', category: 'Team' },
 
   // --- v3: Michigan --------------------------------------------------------
   { text: 'Pasty with ketchup or gravy — where do you stand?', category: 'Michigan' },
@@ -204,6 +181,68 @@ export const SEED_QUESTIONS = [
   { text: 'Robot vacuum: pet, appliance, or coworker?', category: 'Tech' },
   { text: 'What would your commit history say about your week so far?', category: 'Tech' },
   { text: 'Dial-up handshake, floppy click, or mechanical keys — the sound of computing history?', category: 'Tech' },
+
+  // --- v4: more fun, less shop talk --------------------------------------
+  { text: "What's the worst movie you love without a drop of shame?", category: 'Fun' },
+  { text: 'You win a lifetime supply of one thing — what do you pick?', category: 'Fun' },
+  { text: "What's your NPC catchphrase — the line you say on loop every week?", category: 'Fun' },
+  { text: 'Zombie apocalypse: what role do you fill on the survival team?', category: 'Fun' },
+  { text: "What's a hill you'll die on that matters to absolutely no one?", category: 'Fun' },
+  { text: 'If animals could talk, which species would be the rudest?', category: 'Fun' },
+  { text: "What's your signature dish — or your signature takeout order?", category: 'Fun' },
+  { text: 'You get to add one button to the human body. What does it do?', category: 'Fun' },
+  { text: 'Which cartoon character are you before your first coffee?', category: 'Fun' },
+  { text: "What's the most ridiculous fact you know off the top of your head?", category: 'Fun' },
+  { text: 'If your life had a laugh track, when did it go off this week?', category: 'Fun' },
+  { text: 'Time machine, one round trip: dinosaurs or ancient Rome?', category: 'Fun' },
+  { text: "What's a totally normal thing you're weirdly bad at?", category: 'Fun' },
+  { text: "Aliens land and you're the official greeter. What's your opening line?", category: 'Fun' },
+  { text: 'Which food would you never share, even with family?', category: 'Fun' },
+  { text: "What's your best “sounds fake but is true” story?", category: 'Fun' },
+  { text: 'You can make one thing illegal for 24 hours. What is it?', category: 'Fun' },
+  { text: 'What would the theme-park ride of your personality be like?', category: 'Fun' },
+  { text: 'Which emoji deserves to be retired forever?', category: 'Fun' },
+  { text: "What's the pettiest grudge you're still holding?", category: 'Fun' },
+  { text: "What's the best gift you've ever received?", category: 'Icebreaker' },
+  { text: "What's your unpopular ice-cream opinion?", category: 'Icebreaker' },
+  { text: 'Roller coaster or lazy river?', category: 'This or That' },
+  { text: 'Karaoke night: grab the mic or hold the camera?', category: 'This or That' },
+  { text: "Pancakes or waffles — and no, you can't say both.", category: 'This or That' },
+  { text: 'Socks with sandals: crime or cozy?', category: 'This or That' },
+  { text: 'Board games or video games?', category: 'This or That' },
+  { text: 'Shoes in the house: fine or felony?', category: 'This or That' },
 ];
 
 export const CATEGORIES = ['Icebreaker', 'Reflection', 'Fun', 'This or That', 'Team', 'Michigan', 'Tech'];
+
+// Questions pulled from the deck in v4 — too much shop talk for a warm-up.
+// store.migrate removes these from existing boards (matched by text) so the
+// whole deck, not just fresh boards, gets lighter.
+export const RETIRED_QUESTIONS = [
+  "What's one thing slowing you down that the team could help with?",
+  "What did you learn this sprint that you'd tell your past self?",
+  "What's a task you keep avoiding — and what's the first 10 minutes of it?",
+  'Where did you get unblocked recently, and who helped?',
+  "What's one thing we should absolutely keep doing as a team?",
+  "What's the smallest change that would make tomorrow run smoother?",
+  "What's a definition of “done” you wish we were stricter about?",
+  'What would make this sprint a personal success for you?',
+  "What's a blocker you can already see coming this week?",
+  "What's one process here you'd love to simplify?",
+  'What deserves more of your attention this week?',
+  'When did you last change your mind about something at work?',
+  "What's one thing you'd tell yourself at the start of this quarter?",
+  'What part of your work feels effortless lately — and why?',
+  "What's a question you've been avoiding asking?",
+  'If this sprint had a retro right now, what would your one sticky note say?',
+  "What's the kindest piece of feedback you've ever received?",
+  'What would "ten percent braver" look like for you today?',
+  "What's a boundary that's been working well for you?",
+  'What would you do differently if nobody was watching the metrics?',
+  "What's one thing that would make our standups better?",
+  "What's a skill on this team you'd love a mini-workshop on?",
+  "What are you working on that could use a second pair of eyes?",
+  "What's the most underrated channel or thread we have?",
+  'What should we celebrate before the sprint ends?',
+  "What's one piece of context you have that the team might be missing?",
+];
