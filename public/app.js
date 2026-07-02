@@ -52,9 +52,15 @@ function renderDateline() {
   });
 }
 
-// The deck wears nine faces — seven solid colors plus two playing-card styles.
-const FACES = ['cream', 'pine', 'indigo', 'coral', 'butter', 'blush', 'sky', 'spade', 'heart'];
-const SUITS = { spade: '♠', heart: '♥' };
+// The deck wears sixteen faces: solid stocks, patterned themes (Lake Superior
+// waves, Keweenaw copper, cherry, northern lights, circuit board), and the
+// four playing-card suits.
+const FACES = [
+  'cream', 'pine', 'indigo', 'coral', 'butter', 'blush', 'sky',
+  'superior', 'copper', 'cherry', 'aurora', 'circuit',
+  'spade', 'heart', 'club', 'diamond',
+];
+const SUITS = { spade: '♠', heart: '♥', club: '♣', diamond: '♦' };
 const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
 // Stable 32-bit hash so a given question always wears the same face + rank.

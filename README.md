@@ -11,7 +11,10 @@ device — or hands it to a teammate.
 - One card a day, stable for the whole day so the team sees the same question.
 - **Draw another** if you want a different one — it avoids repeating recent picks.
 - **Manage deck** to add, edit, delete, search, and categorize questions.
-- Ships with ~30 curated starter questions.
+- Ships with ~180 curated starter questions across seven categories, including
+  **Michigan** and **Tech** decks.
+- 16 card-face designs: printed stocks, all four playing-card suits, and themed
+  faces (Lake Superior, Keweenaw copper, cherry, northern lights, circuit board).
 
 ## Run locally
 
