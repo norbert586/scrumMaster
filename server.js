@@ -5,6 +5,7 @@
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as store from './src/store.js';
@@ -12,6 +13,11 @@ import { CATEGORIES } from './src/seed.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
+
+// Version marker so a live deploy is identifiable in logs and at
+// /api/version. Railway injects the commit SHA of the build it deployed.
+const VERSION = JSON.parse(readFileSync(path.join(__dirname, 'package.json'), 'utf8')).version;
+const COMMIT = (process.env.RAILWAY_GIT_COMMIT_SHA || '').slice(0, 7) || null;
 const COOKIE = 'qotd_sid';
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -78,6 +84,10 @@ function asyncRoute(handler) {
   });
 }
 
+app.get('/api/version', (req, res) => {
+  res.json({ version: VERSION, commit: COMMIT });
+});
+
 // Bootstrap: everything the app needs in one call.
 app.get('/api/board', asyncRoute(async (req, res) => {
   const board = await withBoard(req, res);
@@ -127,7 +137,7 @@ app.post('/api/board/team', asyncRoute(async (req, res) => {
 }));
 
 const server = app.listen(PORT, () => {
-  console.log(`Daily Draw running on http://localhost:${PORT}`);
+  console.log(`Daily Draw v${VERSION}${COMMIT ? ` (${COMMIT})` : ''} running on http://localhost:${PORT}`);
 });
 
 // Exit cleanly when the platform stops the container (e.g. a Railway
